@@ -49,6 +49,14 @@ Some types are:
 Prometheus is an open source application used to monitoring applications and collecting metrics
 
 ### Run locally
+
+We will use docker. So, from root folder:
+```bash
+docker run --name local-prometheus -p 9090:9090 -v $(pwd)/config/prometheus:/etc/prometheus  -d prom/prometheus 
+```
+
+> Advice: After create the container, you will need to use `docker stop local-prometheus` and `docker start local-prometheus`. If you need to recreate the container, you can remove before using `docker rm local-prometheus`.
+
 Run the sample app to generate data. Go to the `app` folder and run from terminal:
 
 ```bash

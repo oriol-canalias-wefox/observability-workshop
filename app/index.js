@@ -20,6 +20,11 @@ const responseTime = new promClient.Histogram({
 	help: 'API response time'
 });
 
+const summary = new promClient.Summary({
+		name: 'summary_request_duration_seconds',
+		help: 'API response time (Summary)'
+	})
+
 var resetLoggedUsers = false;
 
 function randn_bm(min, max, skew) {
@@ -49,18 +54,19 @@ setInterval(() => {
 	// Observation response time
 	var observedTime = randn_bm(0, 3, 4);
 	responseTime.observe(observedTime);
+	summary.observe(observedTime);
 }, 150);
 
 app.get('/', function (req, res) {
 	res.send('Hello World!');
 });
 
-app.get('/zera-usuarios-logados', function (req, res) {
+app.get('/reset-logged-users', function (req, res) {
 	resetLoggedUsers = true;
 	res.send('OK');
 });
 
-app.get('/retorna-usuarios-logados', function (req, res) {
+app.get('/recovery-logged-users', function (req, res) {
 	resetLoggedUsers = false;
 	res.send('OK');
 });

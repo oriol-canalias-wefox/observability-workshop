@@ -1,5 +1,27 @@
 # Observability workshop
 
+## Pre requisits
+
+To follow the workshop, you can prepare you laptop with:
+
+1. Install node. Tipically:
+```bash
+brew install npm
+```
+
+2. Pull the Prometheus and the Grafana containers (yes, you need docker)
+```bash
+docker pull prom/prometheus
+docker pull grafana/grafana
+```
+
+3. Checkout the repo:
+```bash
+git clone https://github.com/oriol-canalias-wefox/observability-workshop
+```
+
+And, of course, you will need java + Intellij (or another code editor)
+
 ## Introduction
 
 ### What is observability
@@ -35,7 +57,6 @@ Some types are:
     - Response time 10%, 50%, 70%, 90% and 95%
 
  
-
 ### Some tools
 - https://www.dynatrace.com/
 - https://www.datadoghq.com/
@@ -63,3 +84,25 @@ Run the sample app to generate data. Go to the `app` folder and run from termina
 npm install
 node ./index.js
 ```
+
+### PromQL
+
+It is the language to "ask" to Prometheus. 
+
+Data types:
+- Scalar: single number
+- Instant vector: Values of time serie in a specific instant time. Pex:
+![instant vector](images/instantVector.png)
+- Range vector: Values of time serie in a time range
+![range vector](images/rangeVector.png)
+
+## Grafana
+
+### Run locally
+
+We will use docker, again.
+```bash
+docker run --name local-grafana --link local-prometheus:local-prometheus -p 3000:3000 -d grafana/grafana
+```
+
+> Advice: After create the container, you will need to use `docker stop local-grafana` and `docker start local-grafana`. If you need to recreate the container, you can remove before using `docker rm local-grafana`.
